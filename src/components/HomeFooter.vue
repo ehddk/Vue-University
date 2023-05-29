@@ -1,20 +1,22 @@
 <template>
-  <div class="foot">커모아</div>
+  <div class="foot"></div>
 </template>
 
 <script>
 export default {
-  name:'homefooter'
+  name:"homefooter"
 }
 </script>
 
 <style>
 .foot{
-  background:navy;
-  position: absolute;
+  background:beige;
+  /* position: fixed; */
 bottom: 0;
 left: 0;
 right: 0;
+min-width:1100px;
+height:200px;
 
 }
 /* h1{

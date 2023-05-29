@@ -40,17 +40,20 @@
 
   </div>
   <router-view></router-view> 
+  <home-footer/>
 </div>
+
 </template>
 
 <script>
 //import HomeMain from './components/HomeMain.vue'
-//import homefooter from './components/HomeFooter.vue'
+import HomeFooter from "./components/HomeFooter.vue"
 export default {
   components:{
    // HomeMain,homefooter
+   HomeFooter
 }
-}
+};
 </script>
 
 <style>

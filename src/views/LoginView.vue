@@ -6,9 +6,9 @@
     </div>
     <div class="login_content">
         <span class="login_input">
-            <input type="text" placeholder="아이디" style="padding:10px; height:30px; width:300px;" >
-         <input type="password" placeholder="비밀번호" style="display:block; margin-top:10px; padding:10px; height:30px; width:300px;"
-        >
+            <input type="text" placeholder="아이디" style="padding:10px; height:30px; width:300px;" v-model="user.id">
+         <input type="password" placeholder="비밀번호" style="display:block; margin-top:10px; padding:10px; height:30px; width:300px;" v-model="user.password">
+        
         <button class="log_btn" @click="login" style="margin-top:10px; padding:20px; height:30px; width:324px;"><span>로그인</span></button>
         <button class="join_btn" @click="join" style="display:block; margin-top:10px; padding:20px; height:30px; width:324px;">회원가입</button>
         </span>
@@ -41,9 +41,25 @@
 
 <script>
 export default {
+    data(){
+        return{
+            user:{
+                id:'',
+                password:''
+            }
+        }
+    },
     methods:{
         login:function(){
-            this.$router.push("/login")
+            this.$axios.post("/api/user/login",this.user)
+            .then(result=>{
+                if(result.data.result == "ok"){
+                    console.log(result.data.user)
+                    this.$store.commit("setLoginUser",result.data.user)
+                    alert("로그인 성공")
+                    this.$router.push("/") // 메인 홈페이지로 이동.
+                }
+            })
         },
         join:function(){
             this.$router.push("/join")

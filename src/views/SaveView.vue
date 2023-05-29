@@ -32,7 +32,7 @@
                     </li>
                     
                 </ul>
-                <br>
+                
                 <!--관심대학 테이블-->
                 <div class="list_table" v-if="activeTab === 'tab1'">
                     <table class="list1">
@@ -61,7 +61,7 @@
                             <td>경기</td>
                             <td>수시</td>
                             <td>정보통신공학과</td>
-                            <td>삭제</td>
+                            <td>X</td>
                         </tr>
                        </tbody>
                        
@@ -136,33 +136,42 @@ export default {
 .list{
     margin:0;
     padding:10px;
+    margin-top:10px;
     /* border:1px solid red; */
 }
 .tabs{
     height: 32px;
     padding: 0;
+    margin-top:10px;
     /* border-bottom: 1px solid navy; */
    
 }
-.tab1{
+.tab1, .tab2{
     float:left;
-    padding:5px 50px 0 ;   
+    padding:5px 50px 5px  ;   
      letter-spacing: -1px;
      border-top: 1px solid #008394;
     border-right: 1px solid #008394;
     border-left: 1px solid #008394;
     background:rgb(177, 194, 203);
-    color:black;
+    
 
 }
 
 .tab2{
  float:left;
- padding:5px 50px 0;
+ padding:5px 50px 5px;
     letter-spacing: -1px;
+   
 }
+.tab1.active, .tab2.active{
+    background:#008394;
+    color:white;
+}
+
 .list_table{
     /* display:inline; */
+
     
 }
 .list1{
@@ -171,6 +180,12 @@ export default {
     border-bottom:1px solid #535353;
     margin-top:10px;
     padding:5px;
+}
+.list1 th{
+    border-bottom:1px solid gray;
+}
+.list1 td{
+    padding:15px;
 }
 .list_table .list2{
     width:100%;
@@ -185,6 +200,7 @@ export default {
 colgroup{
   display: table-column-group;
   
+  
 }
 thead{
     display: table-header-group;
@@ -192,6 +208,7 @@ thead{
 }
 tr{
    display: table-row;
+   
    
 }
 </style>

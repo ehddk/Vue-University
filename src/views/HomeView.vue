@@ -1,11 +1,12 @@
 <template>
   <div class="compare">
-    <h1>대학별 원하는 학과의 커리큘럼을 비교해보세요</h1>
+    <div class="compare_header" style="border:lpx solid red;">
+      <h1>대학별 원하는 학과의 커리큘럼을 비교해보세요</h1>
     <p class="sub">기존에는 학과,입시 전형,성적 분석 비교 서비스만 있어
-학과마다 다른 커리큘럼을 보려면 여러 창을<br> 띄워서 직접 찾아봐야하는
-불편함이 있으시진 않았나요?</p>
-
-<span class="department">
+  학과마다 다른 커리큘럼을 보려면 여러 창을<br> 띄워서 직접 찾아봐야하는
+  불편함이 있으시진 않았나요?</p>
+    </div>
+<!-- <span class="department">
   <div class="choice">
    
   <div class="society">
@@ -17,11 +18,11 @@
     <img class="two" src="../assets/art.png">
     <p> 예체능</p>
   </div>
-  <div class="nature" style="margin-top:-20px;">
+  <div class="nature">
     <img class="thr" src="../assets/nature.png">
     <p>자연과학</p>
   </div>
-  <div class="science" style="margin-top:-20px;">
+  <div class="science">
     <img class="four" src="../assets/science.png">
     <p >공학</p>
   </div>
@@ -30,11 +31,36 @@
     <p >의학</p>
   </div>
 </div>
+</span> -->
+<div class="main_search">
+      <div id="bodycontent">
+        <div class="detail1">
+         <div class="search_de">
+            <div class="depart-container" style="justify-content:center">
+                <h3 style="color:navy;">대학명</h3>
+                <span class="input_search">
+  <input class="search_text" type="text"  placeholder="해당 학교/학과를 입력하세요" v-model="search" @keyup.enter="content"> <font-awesome-icon icon="search" @click="content"></font-awesome-icon>
 </span>
-
-<span class="input-search">
-  <input class="search_text" type="text" placeholder="해당 학교/학과를 입력하세요" v-model="search" @keyup.enter="content"> <font-awesome-icon icon="search" @click="content"></font-awesome-icon>
-</span>
+<button @click="search" style="border:0"><img src="./search.png" style="width:20px;height:20px; margin-left:10px;"></button>
+            </div>
+            <div class="depart-container">
+                <h3 style="color:navy;">계열</h3>
+                <span>
+                <input type="checkbox"  style="margin-left:25px;" v-model="checkedValues" value="1" @change="clickFunc" :true-value="yes" :false-value="no"> 인문사회
+                <input type="checkbox" v-model="checkedValues" value="2" @change="clickFunc"> 예체능
+                <input type="checkbox" v-model='checkedValues' value="3"  @change="clickFunc"> 자연과학
+                <input type="checkbox" v-model='checkedValues' value="4"  @change="clickFunc"> 공학
+                <input type="checkbox" v-model='checkedValues' value="5"  @change="clickFunc"> 의학
+                </span>
+                <button class="save_btn">검색</button>
+            </div>
+         </div>
+         
+        </div>
+        
+      </div>
+    </div>
+    
 </div>
 <div class="notice">
   <div class="bg-left"></div>
@@ -170,54 +196,33 @@ export default {
 }
 </script>
 <style scoped>
+.search_de{
+  margin-top:250px;
+}
   .compare{
     background:rgb(212, 235, 239);
     height:500px;
-    /* width:1100px; */
+    min-width:1100px; 
     /* position:relative; */
   }
   .compare h1{
     font-size:25px;
-    margin-top:40px;
-    text-align: center;
+    margin-top:70px;
+    /* text-align: center; */
     /* margin-top:50px; */
     position:absolute;
-    left:600px;
-    /* left:500px; */ 
-    
+    left:640px;
    
   }
   .compare .sub{
     font-size:15px;
     text-align: center;
+    
     position:absolute;
-    margin-top:90px;
-    left:550px;
-  }
-  .department{
-    /* display: flex; */
-    justify-content: center;
-  
-    justify-content: space-between; 
-  }
-  .department p{
-    font-weight:bold;
-  }
-  /*--input 태그--*/
-  .compare .input-search{
-    position:absolute;
-   
-    justify-content: center;
-    margin-top:400px;
+    margin-top:130px;
     left:600px;
-    box-shadow: 0 6px 12px rgba(0,0,0,.12);
-    padding-left: 12px;
-    border-radius: 12px;
-    height: 48px;
-    width:440px;
-    background-color: #fff;
-
   }
+
   .search_text{
   
     width:400px;
@@ -225,41 +230,53 @@ export default {
     line-height: 24px;
     color: #292929;
     font-size: 15px;
-    border-style:none;
+    margin-left:10px;
   }
 
+.search_de{
 
-  .choice{
-    display:flex;
-    top:300px;
-    left:300px;
-    position:absolute;
-    
-  }
- 
-  .choice p{
-    font-size:20px;
-    text-align: center;
-  }
+background: white;
+position: absolute;
+top: 20%;
+left: 50%;
+transform: translate(-50%, -50%);
+padding: 20px;
+min-width: 1100px;
 
-  .department div {
-    /* margin-top:200px; */
-    margin-right: 50px; /* 간격 크기 조정 */
-    margin-left:50px;
 }
-  .department .one, .two, .thr, .four, .five{
-    width:100px;
-    height:100px;
-    background:rgb(255, 255, 255);
-    border-radius: 5px;
-    
-  }
-  #content{
+.depart-container{
+display: flex;
+align-items:center;
+padding:10px;
+}
+#depart{
+margin-left:10px;
+width:180px;
+height:30px;
+}
+
+#search_content{
+background: white;
+position: absolute;
+top:430px;
+left:50%;
+transform: translate(-50%, -50%);
+padding: 20px;
+width: 872px;
+overflow: auto;
+}
+ #content{
+   padding-left:70px;
+ }
+ .save_btn{
+    position:relative;
+    top:100px;
+    padding:10px 20px;
+    left:150px;
    
-    padding-left:70px;
-   
+    border:0;
+    background:#99acb6;
   }
-  
   .notice{
   position: relative;
   width:100%;
@@ -322,19 +339,11 @@ export default {
 .right{
   float:right;
 }
-.test_right{
 
-}
 #test, #test2{ 
-  /* border:1px solid black;
-  position:relative; */
-  /* display:flex; */
   border:1px solid rgb(191, 188, 188);
   width:500px;
-  
   height:150px;
-  /* margin:0; */
-  /* padding:0; */
 }
 #test2{
   margin-top:20px;

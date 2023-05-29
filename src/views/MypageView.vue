@@ -1,6 +1,7 @@
 <template>
   <div style="background:#f4f5f9;">
     <div id="content" >
+      <div class="depart_content">
      <div class="lnb">
       <div class="lnb_title">마이페이지</div>
       <ul id="menus">
@@ -82,6 +83,7 @@
         </div>
       </div>
     </div>
+    </div>
   </div>
 </template>
 
@@ -107,6 +109,9 @@ export default{
 </script>
 
 <style>
+.depart_content{
+  display:flex;
+}
 #content {
   position: relative;
   margin: 0 auto;
@@ -119,6 +124,7 @@ export default{
     top: 0px;
     left: 0px;
     width: 210px;
+    height:100%;
 }
 ul {
   list-style: none;
