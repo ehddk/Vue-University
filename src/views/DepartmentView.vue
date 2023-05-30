@@ -256,9 +256,37 @@
                        </tbody>
                     </table>
                 </div>
+                <!--비교 버튼을 누르면 나오는 박스-->
+              <div class="modal_box">
+                <h3 style="padding:15px; background:#efefef">비교</h3>
+                <ul class="modal_list">
+                  <li id="first" style="border:1px solid red; padding:25px; ">
+                    <button style=" border:0; background: 0; float:right" @click="delete"><img src='./close.png' alt="닫기"></button>
+                    <p class="univ_name">서울대학교</p>
+                    <p class="univ_de">정보통신공학과</p>
+                  </li>
+                  <li id="second" style="border:1px solid red; padding:25px; margin-left:20px;">
+                    <button style=" border:0; background: 0; float:right"  @click="delete"><img src='./close.png'></button>
+                    <p class="univ_name">서울대학교</p>
+                    <p class="univ_de">정보통신공학과</p>
+                  </li>
+                  <li id="third " style="border:1px solid red; padding:25px; margin-left:20px;">
+                    <button style=" border:0; background: 0; float:right"  @click="delete"><img src='./close.png'></button>
+                    <p class="univ_name">서울대학교</p>
+                    <p class="univ_de">정보통신공학과</p>
+                  </li>
+
+                </ul>
+                <div class="com_btn" style="justify-content: center; text-align: center;">
+                  <button @click="compare_univ">학교 비교</button>
+                  <button @click="compare_dep">학과 비교</button>
+                </div>
+                </div>
+
+                </div>
               </div>
-            </div>
-        </div>
+              </div>
+      
 </template>
 
 <script>
@@ -275,6 +303,10 @@ export default {
     //학과비교,대학비교
     compare(){
       
+    },
+    //학교 비교 버튼 누를경우
+    compare_univ(){
+      this.$router.push('/department/compareuniv');
     },
     //메뉴 접히기
     toggleFold() {
@@ -401,5 +433,32 @@ export default {
 }
 .list1 td{
   text-align: center;
+}
+
+.modal_box{
+ border:1px solid rgb(183, 183, 183);
+ 
+}
+.modal_list{
+  display:flex;
+  padding:15px;
+  
+}
+.modal_list img{
+  width:10px;
+  height:10px;
+  
+}
+.modal_list li{
+ 
+}
+
+.com_btn > button{
+  padding:10px;
+  margin-bottom: 10px;
+
+}
+.com_btn > button + button {
+  margin-left:30px;
 }
 </style>
