@@ -10,7 +10,7 @@ var usersRouter = require('./routes/users');
 var app = express();
 
 // const  {Sequelize} = require('sequelize');
-// const sequelize = new Sequelize('board','root','amy001120!',{
+// const sequelize = new Sequelize('board','root','password',{
 //   host:'127.0,0.1',
 //   dialect:'mysql',
 //   logging:false
