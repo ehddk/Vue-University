@@ -156,6 +156,7 @@
             </ul>
           </nav>
         </div>
+      
         <div class="area">
           <div style="display: flex; justify-content: space-between">
             <span style="font-size:18px; padding:5px;">구분</span>
@@ -173,8 +174,7 @@
                   value="11"
                   @change="clickFunc"
                   :true-value="yes"
-                  :false-value="no"
-                />
+                  :false-value="no"/>
                 주간
               </li>
               <li>
@@ -237,27 +237,27 @@
                         <!-- <tr v-for="(item,index) in tablelist" :key="index"> -->
                           <tr>
                             <td>정보통신공학과</td>
-                            <td>명지전문대학</td>
+                            <td>고려대학교</td>
                             <td>경기</td>
                             <td>주간/야간</td>
                             <td>수시</td>
                             <td>67.8%</td>
-                            <td><button @click="compare" style="border:0"><img src='./check.png/' style="width:20px;height:20px;"></button></td>
+                            <td><button @click="toggleShow" style="border:0"><img src='./check.png/' style="width:20px;height:20px;"></button></td>
                         </tr>
                         <tr>
                             <td>정보통신공학과</td>
-                            <td>명지전문대학</td>
+                            <td>건국대학교</td>
                             <td>경기</td>
                             <td>주간/야간</td>
                             <td>수시</td>
                             <td>67.8%</td>
-                            <td><button @click="" style="border:0"><img src='./check.png/' style="width:20px;height:20px;"></button></td>
+                            <td><button @click="toggleShow" style="border:0"><img src='./check.png/' style="width:20px;height:20px;"></button></td>
                         </tr>
                        </tbody>
                     </table>
                 </div>
                 <!--비교 버튼을 누르면 나오는 박스-->
-              <div class="modal_box">
+              <div class="modal_box" v-if="show">
                 <h3 style="padding:15px; background:#efefef">비교</h3>
                 <ul class="modal_list">
                   <li id="first" style="border:1px solid red; padding:25px; ">
@@ -290,13 +290,15 @@
 </template>
 
 <script>
+
 export default {
   name: "department",
   data() {
     return {
       //체크한 내용이 배열에 들어오게 됨.
       checkedValues: [],
-      isFolded: false
+      isFolded: false,
+      show:false
     };
   },
   methods: {
@@ -323,6 +325,9 @@ export default {
     },
     movePage() {
       this.$router.push("/department/departcontent");
+    },
+    toggleShow(){
+      this.show = !this.show;
     }
   }
 };
