@@ -22,12 +22,12 @@ var sessionStore=new MYSQLStore({
   host:'univ',
   port:3306,
   user:'root',
-  password:'amy001120!',
+  password:'password',
   database:'univ_login'
 });
 app.use(session({
 	key: 'loginkey',
-	secret: 'itc801!',
+	secret: '',
 	store: sessionStore,
 	resave: false,
 	saveUninitialized: false
