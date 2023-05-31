@@ -46,28 +46,28 @@
                   <th>이름</th>
                   <td>
                     <label class="name"></label>
-                    <input placeholder="이름을 입력해주세요">
+                    <input placeholder="이름을 입력해주세요" v-model="user.username">
                   </td>
                 </tr>
                 <tr>
                   <th>아이디</th>
                   <td>
-                    <label class="name"></label>
-                    <input placeholder="">
+                    <label class="id"></label>
+                    <input placeholder="아이디를 입력해주세요" v-model="user.id">
                   </td>
                 </tr>
                 <tr>
                   <th>비밀번호</th>
                   <td>
                     <label class="pwd"></label>
-                    <input type="password">
+                    <input type="password" v-model="user.password">
                   </td>
                 </tr>
                 <tr>
                   <th>비밀번호 확인</th>
                   <td>
                     <label class="pwdconfirm"></label>
-                    <input type="password">
+                    <input type="password" v-model="user.passwordConfirm">
                   </td>
                 </tr>
                 <tr>
@@ -122,6 +122,7 @@ export default {
     data(){
         return{
             user:{
+                username:'',
                 id:'',
                 password:'',
                 passwordConfirm:''
@@ -130,6 +131,15 @@ export default {
     },
     methods:{
         join(){
+          this.$axios.post("/api/user/join",{
+            user:this.user,
+          })
+          .then((res) => {
+            if(res.data.success == true){
+              alert("회원가입 완료되었습니다");
+              this.$router.push("/")
+            }
+          })
             if(this.user.id==""){
         alert("아이디를 입력하세요")
         return

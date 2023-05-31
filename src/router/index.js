@@ -10,6 +10,8 @@ import DepartmentView from '../views/DepartmentView.vue'
 import CommunityView from '../views/CommunityView.vue'
 import WriteView from '../views/board/WriteView.vue'
 import DepartContent from '../views/department/DepartContent.vue'
+import CompareUniv from '../views/department/CompareUniv.vue'
+import CompareDepart from '../views/department/CompareDep.vue'
 
 const routes = [
   {
@@ -75,6 +77,17 @@ const routes = [
     path:'/department/departcontent',
     name:'departcontent',
     component:DepartContent
+  },
+  {
+    path:'/department/compareuniv',
+    name:'compareuniv',
+    component:CompareUniv
+  },
+  {
+    path:'/department/comparedepart',
+    name:'comparedapart',
+    component:CompareDepart
+
   }
 ]
 
