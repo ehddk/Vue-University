@@ -6,8 +6,14 @@
 					<span style="font-size: 18px">검색 조건</span>
 					<button class="reset"><img src="./reset.png" style="width: 15px; height: 15px" /><span>초기화</span></button>
 				</div>
-				<nav class="filter_school">
-					<ul id="filter" style="margin-top: 20px">
+				<div style="display: flex; justify-content: space-between">
+					<span style="font-size: 18px">학교 유형</span>
+					<button class="fold" @click="toggleFold">
+						<img src="./fold.png" style="width: 20px; height: 20px" />
+					</button>
+				</div>
+				<nav class="filter_school" v-if="isFolded">
+					<ul id="filter" style="margin-top: 10px">
 						<li v-for="(item, index) in gubunList" :key="index">
 							<input
 								type="checkbox"
@@ -29,7 +35,7 @@
 						</button>
 					</div>
 
-					<nav class="filter_school" :class="{ folded: isFolded }">
+					<nav class="filter_school" v-if="isFolded">
 						<ul id="filter" style="margin-top: 20px">
 							<li v-for="(item, index) in regionList" :key="index">
 								<input
@@ -45,42 +51,6 @@
 						</ul>
 					</nav>
 				</div>
-				<div class="area">
-					<div style="display: flex; justify-content: space-between">
-						<span style="font-size: 18px; padding: 5px">구분</span>
-						<button class="fold" @click="toggleFold">
-							<img src="./fold.png" style="width: 20px; height: 20px" />
-						</button>
-					</div>
-					<nav class="filter_school">
-						<ul id="filter" style="margin-top: 20px">
-							<li>
-								<input
-									type="checkbox"
-									style="margin-left: 25px"
-									v-model="checkedValues"
-									value="11"
-									@change="handleOptionClick"
-									:true-value="yes"
-									:false-value="no"
-								/>
-								주간
-							</li>
-							<li>
-								<input
-									type="checkbox"
-									style="margin-left: 25px"
-									v-model="checkedValues"
-									value="12"
-									@change="handleOptionClick"
-									:true-value="yes"
-									:false-value="no"
-								/>
-								야간
-							</li>
-						</ul>
-					</nav>
-				</div>
 			</div>
 			<div class="bodycontent">
 				<div class="search_school">
@@ -90,14 +60,13 @@
 						<button @click="search" style="border: 0"><img src="./search.png" style="width: 20px; height: 20px; margin-left: 10px" /></button>
 					</span>
 				</div>
-				<div class="option">
-					<p style="line-height: 3">검색조건 > 일반대학 > 서울</p>
-				</div>
-				<div class="choice" :class="{ show: isChoiceVisible }">
-					<div class="grid" v-for="(item, index) in compareList" :key="index">{{ item }} ,{{ item.region }}</div>
-
-					<button @click="handleModal" style="padding: 5px 30px; height: 30px; left: 30px">대학 비교</button>
-					<button @click="handleModal" style="padding: 5px 30px; height: 30px">학과 비교</button>
+				<!--비교 버튼 누르면 보이는 창-->
+				<div class="choice" :class="{ show: isChoiceVisible, hide: !isChoiceVisible }">
+					<div class="grid" v-for="(item, index) in compareList" :key="index">{{ item }}</div>
+					<div style="display: flex; flex-direction: column; position: relative; justify-content: center; margin-left: 20px">
+						<button @click="handleModal" style="padding: 5px 30px; height: 30px; left: 30px">대학 비교</button>
+						<button @click="movepg" style="padding: 5px 30px; margin-top: 10px; height: 30px">학과 비교</button>
+					</div>
 				</div>
 				<div class="list_table" style="padding: 15px">
 					<table class="list1">
@@ -123,7 +92,8 @@
 						<tbody>
 							<!-- <tr v-for="(item,index) in tablelist" :key="index"> -->
 							<tr v-for="(res, index) in this.univInfo" :key="index">
-								<td>{{ aa }}</td>
+								<td>{{ res.major }}</td>
+								<!--학과-->
 								<td>{{ res.schoolName }}</td>
 								<td>{{ res.region }}</td>
 
@@ -143,37 +113,64 @@
 							</tr>
 						</tbody>
 					</table>
-					<!-- <div class="modal_box" v-if="show">
-						<h3 style="padding: 15px; background: #efefef">비교</h3>
-						<ul class="modal_list">
-							<li id="first" style="border: 1px solid red; padding: 25px">
-								<button style="border: 0; background: 0; float: right"><img src="./close.png" alt="닫기" /></button>
-								<p class="univ_name">서울대학교</p>
-								<p class="univ_de">정보통신공학과</p>
-							</li>
-							<li id="second" style="border: 1px solid red; padding: 25px; margin-left: 20px">
-								<button style="border: 0; background: 0; float: right"><img src="./close.png" /></button>
-								<p class="univ_name">서울대학교</p>
-								<p class="univ_de">정보통신공학과</p>
-							</li>
-							<li id="third " style="border: 1px solid red; padding: 25px; margin-left: 20px">
-								<button style="border: 0; background: 0; float: right"><img src="./close.png" /></button>
-								<p class="univ_name">서울대학교</p>
-								<p class="univ_de">정보통신공학과</p>
-							</li>
-						</ul>
-						<div class="com_btn" style="justify-content: center; text-align: center">
-							<button @click="compare_univ">학교 비교</button>
-							<button @click="compare_dep">학과 비교</button>
-						</div>
-					</div> -->
 				</div>
 			</div>
 		</div>
 	</div>
-	<section v-if="isOpenModal">
-		<div v-for="(items, index) in compareList" :key="index">
-			{{ items }}
+	<!----모달창 띄우기-->
+	<section class="modal" v-if="isOpenModal == true" @click="close($event)">
+		<div id="content" style="background: white">
+			<div class="content_header" style="padding: 50px">
+				<h2>대학 비교</h2>
+			</div>
+			<div class="univ_body" style="padding: 50px 0 0 100px">
+				<div class="univ_header">
+					<span style="display: flex">
+						<p>모집시기</p>
+						<button style="margin-left: 20px">검색</button>
+					</span>
+				</div>
+				<div class="univ_content">
+					<table class="univ_table">
+						<colgroup>
+							<col style="width: 200px" />
+							<col style="width: 200px" />
+							<col style="width: 200px" />
+							<col style="width: 200px" />
+						</colgroup>
+						<thead style="background: lightgray">
+							<tr>
+								<th scope="col" style="padding: 20px">카테고리</th>
+								<th scope="col">대학교명</th>
+								<th scope="col">대학교명</th>
+								<th scope="col">대학교명</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td style="padding: 30px">전형 유형</td>
+								<td v-for="(items, index) in compareList" :key="index">{{ items }}</td>
+							</tr>
+							<tr>
+								<td style="padding: 30px">전체 수</td>
+							</tr>
+							<tr>
+								<td style="padding: 30px">주간 / 야간</td>
+							</tr>
+							<tr>
+								<td style="padding: 30px">남녀 성비</td>
+							</tr>
+							<tr>
+								<td style="padding: 30px">전공심화 여부</td>
+							</tr>
+						</tbody>
+					</table>
+					<button class="close_btn">닫기</button>
+				</div>
+			</div>
+			<!-- <div v-for="(items, index) in compareList" :key="index">
+				{{ items }}
+			</div> -->
 		</div>
 	</section>
 </template>
@@ -226,30 +223,55 @@ export default {
 			gubunCode: '',
 
 			typeNumber: '',
+			majorNumber: '',
+			//mClass: '',
+			major: '',
 
 			univInfo: [],
 
-			isFolded: false,
+			isFolded: true,
 			isOpenModal: false,
 			isChoiceVisible: false,
 			compareList: [],
+
+			List: [],
 		};
 	},
 
 	methods: {
-		// handleBeforeUnload(event) {
-		//    event.preventDefault();
-		//    event.returnValue = '';
-		// },
+		close(event) {
+			if (event.target.classList.contains('modal') || event.target.classList.contains('close')) {
+				this.isOpenModal = false;
+			} else if (event.target.classList.contains('modal')) {
+				this.isOpenModal = true;
+			}
+		},
 		fetchData(regionNumber, typeNumber, schoolNumber) {
-			let baseUrl = `https://www.career.go.kr/cnet/openapi/getOpenApi.json?apiKey=203d6fa46456dfa6b49d3c578fda0f2a&svcType=api&svcCode=SCHOOL&contentType=json&gubun=univ_list`;
+			let baseUrl1 = `https://www.career.go.kr/cnet/openapi/getOpenApi.json?apiKey=203d6fa46456dfa6b49d3c578fda0f2a&svcType=api&svcCode=SCHOOL&contentType=json&gubun=univ_list`;
 
-			regionNumber && (baseUrl += `&region=${regionNumber}`);
-			typeNumber && (baseUrl += `&sch1=${typeNumber}`);
-			schoolNumber && (baseUrl += `&sch2=${schoolNumber}`);
+			regionNumber && (baseUrl1 += `&region=${regionNumber}`);
+			typeNumber && (baseUrl1 += `&sch1=${typeNumber}`);
+			schoolNumber && (baseUrl1 += `&sch2=${schoolNumber}`);
 
+			//학과명 불러오기
+			//let baseUrl2 = `https://www.career.go.kr/cnet/openapi/getOpenApi.json?apiKey=203d6fa46456dfa6b49d3c578fda0f2a&svcType=api&svcCode=MAJOR&contentType=json&gubun=univ_list&content`;
+
+			//majorNumber && (baseUrl2 += `&major=${majorNumber}`);
+			//subjectNumber && (baseUrl2 += `&subject=${subjectNumber}`);
+			//let baseUrl3 = `https://api.odcloud.kr/api/15014632/v1/uddi:d6552229-9686-4565-a421-ab303156f076_202004101338?page=1&perPage=10&serviceKey=hMojIvvHF%2B09wM6EWKKRIKhgicN%2FZohDT9YErSSMrpz76XeTM0XzQZi7x6L2bE1qa%2Bw24QV232F0GrcA2aSiZQ%3D%3D`;
+			// axios
+			// 	.all([axios.get(baseUrl1), axios.get(baseUrl2)])
+			// 	.then(
+			// 		axios.spread((res1, res2) => {
+			// 			this.univInfo = res1.data.dataSearch.content;
+			// 			this.univInfo = res2.data.dataSearch.content;
+			// 			console.log(res1);
+			// 			console.log(res2);
+			// this.gubun = response.data.dataSearch.content;
+			// 	}),
+			// )
 			axios
-				.get(baseUrl)
+				.get(baseUrl1)
 				.then((response) => {
 					this.univInfo = response.data.dataSearch.content;
 					// this.gubun = response.data.dataSearch.content;
@@ -262,6 +284,12 @@ export default {
 		handleCompareClick(school) {
 			const { schoolName, region } = school;
 			const existingSchool = this.compareList.find((item) => item.schoolName === schoolName && item.region === region);
+
+			//갯수 제한:2개
+			if (this.compareList.length >= 2) {
+				alert('최대 2개까지만 비교할 수 있습니다.');
+				return;
+			}
 			this.compareList.includes(school)
 				? (this.compareList = this.compareList.filter((res) => res !== school))
 				: (this.compareList = [...this.compareList, school]);
@@ -302,6 +330,9 @@ export default {
 		},
 		movePage() {
 			this.$router.push('/department/departcontent');
+		},
+		movepg() {
+			this.$router.push('/department/compareuniv');
 		},
 	},
 
@@ -372,14 +403,14 @@ export default {
 	overflow: hidden;
 	transition: max-height 0.3s ease-in-out;
 }
-.filter_school .folded {
+/* .filter_school .folded {
 	max-height: 0;
 	padding: 0;
 	display: none;
 }
 .filter_school .notfolded {
 	transition: max-height 0.3s ease-in-out;
-}
+} */
 .bodycontent {
 	width: 100%;
 	margin: 0;
@@ -417,17 +448,63 @@ export default {
 	text-align: center;
 }
 .choice {
-	width: 800px;
-	height: 200px;
-	border: 1px solid red;
+	width: 780px;
+	height: 100px;
+
 	display: flex;
 	margin-left: 20px;
 	margin-top: 10px;
 	padding: 5px;
 }
-
+.show {
+	display: flex;
+}
+.hide {
+	display: none;
+}
 .grid {
-	border: 1px solid green;
+	width: 150px;
+	height: 100px;
+	border-radius: 5px;
+	border: 1px solid gray;
+	font-size: 20px;
+	text-align: center;
+	line-height: 5;
+	margin-left: 10px;
+}
+
+body {
+	background: #f4f5f9;
+}
+.content_header {
+	padding: 15px;
+}
+.univ_body {
+	margin-top: 50px;
+	height: auto;
+}
+.univ_table {
+	border: 1px solid #ababab;
+}
+.univ_table th {
+	border-bottom: 1px solid #ababab;
+}
+colgroup {
+	display: table-column-group;
+}
+col {
+	display: table-column;
+}
+.modal {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 9999;
+	background-color: rgba(0, 0, 0, 0.432);
+	position: fixed;
 	padding: 20px;
 }
 </style>
