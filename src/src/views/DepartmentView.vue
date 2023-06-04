@@ -248,7 +248,7 @@ export default {
 			}
 		},
 		fetchData(regionNumber, typeNumber, schoolNumber) {
-			let baseUrl1 = `https://www.career.go.kr/cnet/openapi/getOpenApi.json?apiKey=203d6fa46456dfa6b49d3c578fda0f2a&svcType=api&svcCode=SCHOOL&contentType=json&gubun=univ_list`;
+			let baseUrl1 = `https://www.career.go.kr/cnet/openapi/getOpenApi.json?apiKey=''&svcType=api&svcCode=SCHOOL&contentType=json&gubun=univ_list`;
 
 			regionNumber && (baseUrl1 += `&region=${regionNumber}`);
 			typeNumber && (baseUrl1 += `&sch1=${typeNumber}`);
@@ -259,7 +259,7 @@ export default {
 
 			//majorNumber && (baseUrl2 += `&major=${majorNumber}`);
 			//subjectNumber && (baseUrl2 += `&subject=${subjectNumber}`);
-			// let baseUrl2 = `https://www.career.go.kr/cnet/openapi/getOpenApi?apiKey=203d6fa46456dfa6b49d3c578fda0f2a&svcType=api&svcCode=MAJOR&contentType=json&gubun=univ_list`;
+			// let baseUrl2 = `https://www.career.go.kr/cnet/openapi/getOpenApi?apiKey=''&svcType=api&svcCode=MAJOR&contentType=json&gubun=univ_list`;
 
 			// total && (baseUrl2 += `&totalCount=${total}`);
 
