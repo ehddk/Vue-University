@@ -10,7 +10,7 @@ var usersRouter = require('./routes/users');
 var app = express();
 
 const { Sequelize } = require('sequelize');
-const sequelize = new Sequelize('board', 'root', 'amy001120!', {
+const sequelize = new Sequelize('board', 'root', '', {
 	host: '127.0.0.1',
 	dialect: 'mysql',
 	logging: false,
@@ -25,14 +25,14 @@ var sessionStore = new MYSQLStore({
 	host: 'localhost',
 	port: 3306,
 	user: 'root',
-	password: 'amy001120!',
+	password: '',
 	database: 'board',
 });
 
 app.use(
 	session({
 		key: 'loginkey',
-		secret: 'itc801!',
+		secret: '',
 		store: sessionStore,
 		resave: false,
 		saveUninitialized: false,
