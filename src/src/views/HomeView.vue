@@ -224,7 +224,7 @@ export default {
 		fetchData() {
 			axios
 				.get(
-					'https://www.career.go.kr/cnet/openapi/getOpenApi?apiKey=203d6fa46456dfa6b49d3c578fda0f2a&svcType=api&svcCode=MAJOR&contentType=xml&gubun=univ_list',
+					'https://www.career.go.kr/cnet/openapi/getOpenApi?apiKey=''&svcType=api&svcCode=MAJOR&contentType=xml&gubun=univ_list',
 				)
 				.then((response) => {
 					this.majorInfo = response.data.dataSearch.content;
