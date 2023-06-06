@@ -1,6 +1,6 @@
 <template>
 	<!----모달창 띄우기-->
-	<section class="modal" v-if="isOpenModal == true" @click="close($event)">
+	<section v-if="isOpenModal" class="modal">
 		<div id="content" style="background: white">
 			<div class="content_header" style="padding: 50px">
 				<h2>대학 비교</h2>
@@ -24,25 +24,20 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td style="padding: 30px">전형 유형</td>
-								<!-- <td v-for="(items, index) in compareList" :key="index">{{ items }}</td> -->
-								<td>{{ item }}</td>
+								<td style="padding: 30px">지역</td>
 							</tr>
 							<tr>
 								<td style="padding: 30px">전체 수</td>
 							</tr>
 							<tr>
-								<td style="padding: 30px">주간 / 야간</td>
+								<td style="padding: 30px">학교 URL</td>
 							</tr>
 							<tr>
-								<td style="padding: 30px">남녀 성비</td>
-							</tr>
-							<tr>
-								<td style="padding: 30px">전공심화 여부</td>
+								<td style="padding: 30px">입학상황(성별)</td>
 							</tr>
 						</tbody>
 					</table>
-					<button class="close_btn">닫기</button>
+					<button class="close_btn" @click.stop="closeModal">닫기</button>
 				</div>
 			</div>
 		</div>
@@ -51,15 +46,23 @@
 
 <script>
 export default {
-	props: ['propsdata'],
-	methods: {
-		close(event) {
-			if (event.target.classList.contains('modal') || event.target.classList.contains('close_btn')) {
-				this.isOpenModal = false;
-			} else if (event.target.classList.contains('modal')) {
-				this.isOpenModal = true;
-			}
+	props: {
+		isOpenModal: {
+			type: Boolean,
+			required: true,
 		},
+	},
+
+	methods: {
+		closeModal() {
+			this.$emit('closeModal');
+		},
+		// close(event) {
+
+		// 	if (event.target.classList.contains('modal')) {
+		// 		this.$emit('closeModal');
+		// 	}
+		// },
 	},
 };
 </script>
