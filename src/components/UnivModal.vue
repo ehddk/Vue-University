@@ -24,20 +24,16 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td style="padding: 30px">전형 유형</td>
-								<td>{{ item }}</td>
+								<td style="padding: 30px">지역</td>
 							</tr>
 							<tr>
 								<td style="padding: 30px">전체 수</td>
 							</tr>
 							<tr>
-								<td style="padding: 30px">주간 / 야간</td>
+								<td style="padding: 30px">학교 URL</td>
 							</tr>
 							<tr>
-								<td style="padding: 30px">남녀 성비</td>
-							</tr>
-							<tr>
-								<td style="padding: 30px">전공심화 여부</td>
+								<td style="padding: 30px">입학상황(성별)</td>
 							</tr>
 						</tbody>
 					</table>
