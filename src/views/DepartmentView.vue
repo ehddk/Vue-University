@@ -2,18 +2,18 @@
 	<div class="depart-content" style="padding-top: 40px">
 		<div style="min-width: 1100px; margin-left: auto; margin-right: auto; display: flex">
 			<div style="margin-bottom: 20px; min-width: 260px">
-				<div style="justify-content: space-between; display: flex; border-bottom: 1px solid rgb(213, 213, 213); padding-bottom: 20px; padding-top: 20px">
+				<div style="justify-content: space-between; display: flex; border-bottom: 1px solid rgb(213, 213, 213); padding-bottom: 30px; padding-top: 25px">
 					<span style="font-size: 18px">검색 조건</span>
 					<button class="reset"><img src="./reset.png" style="width: 15px; height: 15px" /><span>초기화</span></button>
 				</div>
 				<div style="display: flex; justify-content: space-between">
-					<span style="font-size: 18px">학교 유형</span>
+					<span style="font-size: 18px; margin-top: 10px">학교 유형</span>
 					<button class="fold" @click="toggleFold">
 						<img src="./fold.png" style="width: 20px; height: 20px" />
 					</button>
 				</div>
 				<nav class="filter_school" v-if="isFolded">
-					<ul id="filter" style="margin-top: 10px">
+					<ul id="filter" style="margin-top: 20px">
 						<li v-for="(item, index) in gubunList" :key="index">
 							<input
 								type="checkbox"
@@ -68,6 +68,8 @@
 						<button @click="movepg" style="padding: 5px 30px; margin-top: 10px; height: 30px">학과 비교</button>
 					</div>
 				</div>
+
+				<!--테이블,표-->
 				<div class="list_table" style="padding: 15px">
 					<table class="list1">
 						<colgroup>
@@ -113,23 +115,18 @@
 							</tr>
 						</tbody>
 					</table>
+					<!-- <pagination v-if="pagination" @movePage="movePage" :data="pagination"></pagination> -->
 				</div>
 			</div>
 		</div>
 	</div>
 	<!----모달창 띄우기-->
-	<section class="modal" v-if="isOpenModal == true" @click="close($event)">
+	<!-- <section class="modal" v-if="isOpenModal == true" @click="close($event)">
 		<div id="content" style="background: white">
 			<div class="content_header" style="padding: 50px">
 				<h2>대학 비교</h2>
 			</div>
 			<div class="univ_body" style="padding: 50px 0 0 100px">
-				<div class="univ_header">
-					<span style="display: flex">
-						<p>모집시기</p>
-						<button style="margin-left: 20px">검색</button>
-					</span>
-				</div>
 				<div class="univ_content">
 					<table class="univ_table">
 						<colgroup>
@@ -148,11 +145,12 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td style="padding: 30px">전형 유형</td>
+								<td style="padding: 30px">구분</td>
 								<td v-for="(items, index) in compareList" :key="index">{{ items }}</td>
 							</tr>
 							<tr>
 								<td style="padding: 30px">전체 수</td>
+								<td v-for="(items, index) in countList" :key="index">{{ res.totalCount }}</td>
 							</tr>
 							<tr>
 								<td style="padding: 30px">주간 / 야간</td>
@@ -168,17 +166,18 @@
 					<button class="close_btn">닫기</button>
 				</div>
 			</div>
-			<!-- <div v-for="(items, index) in compareList" :key="index">
-				{{ items }}
-			</div> -->
 		</div>
-	</section>
+	</section> -->
+	<univmodal :isOpenModal="isOpenModal" @closeModal="closeModal"></univmodal>
 </template>
 
 <script>
 import axios from 'axios';
+import univmodal from '../components/UnivModal.vue';
+// import pagination from '../components/Pagination.vue';
 
 export default {
+	components: { univmodal },
 	name: 'department',
 	data() {
 		return {
@@ -226,6 +225,7 @@ export default {
 			majorNumber: '',
 			//mClass: '',
 			major: '',
+			totalCount: '',
 
 			univInfo: [],
 
@@ -235,17 +235,20 @@ export default {
 			compareList: [],
 
 			List: [],
+
+			// page: 1,
+			// pagination: null,
 		};
 	},
 
 	methods: {
-		close(event) {
-			if (event.target.classList.contains('modal') || event.target.classList.contains('close')) {
-				this.isOpenModal = false;
-			} else if (event.target.classList.contains('modal')) {
-				this.isOpenModal = true;
-			}
-		},
+		// close(event) {
+		// 	if (event.target.classList.contains('modal') || event.target.classList.contains('close_btn')) {
+		// 		this.isOpenModal = false;
+		// 	} else if (event.target.classList.contains('modal')) {
+		// 		this.isOpenModal = true;
+		// 	}
+		// },
 		fetchData(regionNumber, typeNumber, schoolNumber) {
 			let baseUrl1 = `https://www.career.go.kr/cnet/openapi/getOpenApi.json?apiKey=203d6fa46456dfa6b49d3c578fda0f2a&svcType=api&svcCode=SCHOOL&contentType=json&gubun=univ_list`;
 
@@ -258,23 +261,24 @@ export default {
 
 			//majorNumber && (baseUrl2 += `&major=${majorNumber}`);
 			//subjectNumber && (baseUrl2 += `&subject=${subjectNumber}`);
-			//let baseUrl3 = `https://api.odcloud.kr/api/15014632/v1/uddi:d6552229-9686-4565-a421-ab303156f076_202004101338?page=1&perPage=10&serviceKey=hMojIvvHF%2B09wM6EWKKRIKhgicN%2FZohDT9YErSSMrpz76XeTM0XzQZi7x6L2bE1qa%2Bw24QV232F0GrcA2aSiZQ%3D%3D`;
-			// axios
-			// 	.all([axios.get(baseUrl1), axios.get(baseUrl2)])
-			// 	.then(
-			// 		axios.spread((res1, res2) => {
-			// 			this.univInfo = res1.data.dataSearch.content;
-			// 			this.univInfo = res2.data.dataSearch.content;
-			// 			console.log(res1);
-			// 			console.log(res2);
-			// this.gubun = response.data.dataSearch.content;
+			// let baseUrl2 = `https://www.career.go.kr/cnet/openapi/getOpenApi?apiKey=203d6fa46456dfa6b49d3c578fda0f2a&svcType=api&svcCode=MAJOR&contentType=json&gubun=univ_list`;
+
+			// total && (baseUrl2 += `&totalCount=${total}`);
+
+			// axios.all([axios.get(baseUrl1), axios.get(baseUrl2)]).then(
+			// 	axios.spread((res1, res2) => {
+			// 		this.univInfo = res1.data.dataSearch.content;
+			// 		this.univInfo = res2.data.dataSearch.content;
+			// 		console.log(res1);
+			// 		console.log(res2);
+
 			// 	}),
-			// )
+			// );
 			axios
 				.get(baseUrl1)
 				.then((response) => {
 					this.univInfo = response.data.dataSearch.content;
-					// this.gubun = response.data.dataSearch.content;
+					this.gubun = response.data.dataSearch.content;
 				})
 				.catch((error) => {
 					console.error(error);
@@ -299,6 +303,9 @@ export default {
 		},
 		handleModal() {
 			this.isOpenModal = true;
+		},
+		closeModal() {
+			this.isOpenModal = false;
 		},
 
 		//학과비교,대학비교
@@ -332,8 +339,24 @@ export default {
 			this.$router.push('/department/departcontent');
 		},
 		movepg() {
-			this.$router.push('/department/compareuniv');
+			this.$router.push('/department/comparedepart');
 		},
+		// movePage(page) {
+		// 	this.page = page;
+		// 	this.getList();
+		// },
+		// getList() {
+		// 	this.$axios
+		// 		.post('/api/department', {
+		// 			page: this.page,
+		// 		})
+		// 		.then((result) => {
+		// 			console.log(result.data);
+		// 			this.regionList = this.list;
+		// 			this.gubunList = this.list;
+		// 			this.pagintion = result.data.pagination;
+		// 		});
+		// },
 	},
 
 	created() {
