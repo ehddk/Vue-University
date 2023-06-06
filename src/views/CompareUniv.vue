@@ -4,12 +4,6 @@
 			<h2>대학 비교</h2>
 		</div>
 		<div class="univ_body" style="padding: 50px 0 0 100px">
-			<div class="univ_header">
-				<span style="display: flex">
-					<p>모집시기</p>
-					<button style="margin-left: 20px">검색</button>
-				</span>
-			</div>
 			<div class="univ_content">
 				<table class="univ_table">
 					<colgroup>
