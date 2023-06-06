@@ -32,7 +32,7 @@
 						<td style="padding: 30px">구분</td>
 						<td>
 							<select id="emailsel">
-								<option v-for="(res, index) in DepInfo" :key="index">{{ res.mClass }}</option>
+								<option v-for="(res, index) in DepInfo" :key="index">{{ res }}</option>
 								<!-- <option selected>직접입력</option>
 								<option>naver.com</option>
 								<option>gmail.com</option>
@@ -40,29 +40,26 @@
 							</select>
 						</td>
 						<td>
-							<select id="emailsel" title="이메일 선택" ref="emailSelect" @change="updateEmail">
-								<option selected>직접입력</option>
-								<option>naver.com</option>
-								<option>gmail.com</option>
-								<option>hanmail.net</option>
+							<select id="emailsel">
+								<option v-for="(res, index) in DepInfo" :key="index">{{ res }}</option>
 							</select>
 						</td>
 					</tr>
-					<tr v-for="(res, index) in DepInfo" :key="index">
-						<!-- <td style="padding: 30px">전체 인원</td> -->
-						<td>{{ res.mClass }}</td>
+					<!-- <tr v-for="(res, index) in DepInfo" :key="index">
+						<td>{{ res }}</td>
+					</tr> -->
+					<tr>
+						<td style="padding: 30px">관련 자격</td>
+						<td v-for="(res, index) in employ" :key="index">{{ res }}</td>
 					</tr>
 					<tr>
-						<td style="padding: 30px">지역</td>
+						<td style="padding: 30px">특성 성별</td>
 					</tr>
 					<tr>
-						<td style="padding: 30px">홈페이지</td>
+						<td style="padding: 30px">관련 직업</td>
 					</tr>
 					<tr>
-						<td style="padding: 30px">취업률</td>
-					</tr>
-					<tr>
-						<td style="padding: 30px">남녀성비</td>
+						<td style="padding: 30px">졸업 후 직장 임금</td>
 					</tr>
 				</tbody>
 			</table>
@@ -85,7 +82,7 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td v-for="(items, index) in compareList" :key="index">{{ items }}</td>
+						<td v-for="(items, index) in compareList" :key="index"></td>
 					</tr>
 					<tr>
 						<td style="padding: 30px">전체 인원</td>
@@ -117,23 +114,35 @@ export default {
 			activeTab: 'tot_tb', //초기 선택 탭
 
 			//subject: '',
-
+			major: '',
 			DepInfo: [],
+			employ: [],
 		};
 	},
 
-	fetchData() {
-		axios
-			.get(
-				`https://www.career.go.kr/cnet/openapi/getOpenApi?apiKey=203d6fa46456dfa6b49d3c578fda0f2a&svcType=api&svcCode=MAJOR&contentType=json&gubun=univ_list`,
-			)
-			.then((response) => {
-				this.DepInfo = response.data.dataSearch.content;
-				console.log(response);
-			})
-			.catch((error) => {
-				console.error(error);
-			});
+	methods: {
+		fetchData() {
+			//let baseUrl = `https://www.career.go.kr/cnet/openapi/getOpenApi?apiKey=203d6fa46456dfa6b49d3c578fda0f2a&svcType=api&svcCode=MAJOR&contentType=json&gubun=univ_list`;
+
+			// axios.all([axios.get(baseUrl), axios.get(baseUrl2)])
+			axios
+				.get(
+					`https://www.career.go.kr/cnet/openapi/getOpenApi?apiKey=203d6fa46456dfa6b49d3c578fda0f2a&svcType=api&svcCode=MAJOR&contentType=json&gubun=univ_list`,
+				)
+				.then((response) => {
+					this.DepInfo = response.data.dataSearch.content.map((item) => item.mClass);
+					this.employ = response.data.dataSearch.content.map((item) => item.employment);
+
+					console.log(response);
+				})
+				.catch((error) => {
+					console.error(error);
+				});
+		},
+	},
+
+	mounted() {
+		this.fetchData();
 	},
 };
 </script>
