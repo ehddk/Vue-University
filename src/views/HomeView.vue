@@ -7,45 +7,61 @@
 				띄워서 직접 찾아봐야하는 불편함이 있으시진 않았나요?
 			</p>
 		</div>
-		<!-- <span class="department">
-  <div class="choice">
-   
-  <div class="society">
-    <img class="one" src="../assets/society.png">
-    <p>인물사회</p>
-  
-  </div>
-  <div class="art">
-    <img class="two" src="../assets/art.png">
-    <p> 예체능</p>
-  </div>
-  <div class="nature">
-    <img class="thr" src="../assets/nature.png">
-    <p>자연과학</p>
-  </div>
-  <div class="science">
-    <img class="four" src="../assets/science.png">
-    <p >공학</p>
-  </div>
-  <div class="medi">
-    <img class="five" src="../assets/medi.png">
-    <p >의학</p>
-  </div>
-</div>
-</span> -->
+
 		<div class="main_search">
-			<div id="bodycontent">
-				<div class="detail1">
-					<div class="search_de">
-						<div class="depart-container" style="justify-content: center">
+			<div class="search_de" style="display: flex; background: rgb(212, 235, 239)">
+				<div class="list" style="margin: 0 auto">
+					<ul class="tabs" style="justify-items: cent">
+						<li class="tab1" :class="{ active: activeTab === 'tab1' }" @click="activeTab = 'tab1'">대학</li>
+						<li class="tab2" :class="{ active: activeTab === 'tab2' }" @click="activeTab = 'tab2'">학과</li>
+					</ul>
+					<div class="depart-container" style="justify-content: center; background: beige; width: 650px; height: 100px" v-if="activeTab === 'tab1'">
+						<h3 style="color: navy">대학명</h3>
+						<span class="input_search">
+							<input class="search_text" type="text" placeholder="해당 학교를 입력하세요" v-model="search" @keyup.enter="content"
+						/></span>
+					</div>
+					<div
+						class="depart-container"
+						style="justify-content: center; background: beige; display: block; width: 650px; height: 100px"
+						v-if="activeTab === 'tab2'"
+					>
+						<div style="display: flex; margin-left: 20px">
+							<h3 style="color: navy; line-height: 3">학과명</h3>
+							<span class="input_search">
+								<input class="search_text" type="text" placeholder="해당 학과명을 입력하세요" v-model="search" @keyup.enter="content"
+							/></span>
+						</div>
+
+						<div class="depa" style="margin-top: 10px; margin-left: 10px; display: flex; align-items: center">
+							<li v-for="(item, index) in majorList" :key="index" style="margin-left: 5px">
+								<input
+									type="checkbox"
+									v-model="major"
+									value="item.majorCode"
+									@change="handleOptionClick(item.majorLine, item.majorCode, 'majorType')"
+									:checked="item.majorLine === this.major"
+								/>
+								{{ item.majorLine }}
+							</li>
+						</div>
+					</div>
+				</div>
+				<!-- <div class="tab_left" style="width: 20%">
+							<ul class="tabmenu">
+								<li class="tab_one"><div style="background-color: yellow; padding: 40px">대학</div></li>
+								<li class="tab_two">학과</li>
+							</ul>
+						</div> -->
+				<!-- <div class="depart-container" style="justify-content: center; width: 80%">
 							<h3 style="color: navy">대학명</h3>
 							<span class="input_search">
 								<input class="search_text" type="text" placeholder="해당 학교/학과를 입력하세요" v-model="search" @keyup.enter="content" />
 								<font-awesome-icon icon="search" @click="content"></font-awesome-icon>
 							</span>
 							<button @click="search" style="border: 0"><img src="./search.png" style="width: 20px; height: 20px; margin-left: 10px" /></button>
-						</div>
-						<div class="depart-container">
+						</div> -->
+				<!-- <div class="depart-container">
 							<h3 style="color: navy">계열</h3>
 							<span>
 								<input type="checkbox" style="margin-left: 25px" v-model="checkedValues" value="1" @change="clickFunc" :true-value="yes" :false-value="no" />
@@ -55,12 +71,11 @@
 								<input type="checkbox" v-model="checkedValues" value="5" @change="clickFunc" /> 의학
 							</span>
 							<button class="save_btn">검색</button>
-						</div>
-					</div>
-				</div>
+						</div> -->
 			</div>
 		</div>
 	</div>
+
 	<div class="notice">
 		<div class="bg-left"></div>
 		<div class="bg-right"></div>
@@ -91,10 +106,11 @@
 				<div class="test_left" style="position: absolute; top: 140px; left: 20px">
 					<h3>직업적성검사</h3>
 					<br />
-					<p>진로 의사결정에 유용한 정보를 제공합니다.</p>
+					<p style="font-size: 15px">진로 의사결정에 유용한 정보를 제공합니다.</p>
 				</div>
-				<div class="test_right" style="position: absolute; top: 140px; right: 40px">
-					<p style="margin-left: 20px">25분~30분 소요</p>
+				<div class="test_right" style="position: absolute; top: 140px; right: 30px">
+					<p style="margin-left: 25px; font-size: 15px; font-weight: bold"><img src="./clock.png" /> 25분~30분</p>
+					<br />
 					<button class="link" @click="moveurl">검사 실시</button>
 				</div>
 			</div>
@@ -102,10 +118,11 @@
 				<div class="test_left" style="position: absolute; top: 340px; left: 20px">
 					<h3>이공계전공적합도검사</h3>
 					<br />
-					<p>진로 의사결정에 유용한 정보를 제공합니다.</p>
+					<p style="font-size: 15px">진로 의사결정에 유용한 정보를 제공합니다.</p>
 				</div>
-				<div class="test_right" style="position: absolute; top: 340px; right: 40px">
-					<p style="margin-left: 20px">25분~30분 소요</p>
+				<div class="test_right" style="position: absolute; top: 340px; right: 30px">
+					<p style="margin-left: 25px; font-size: 15px; font-weight: bold"><img src="./clock.png" /> 25분~30분</p>
+					<br />
 					<button class="link" @click="moveurl_1">검사 실시</button>
 				</div>
 			</div>
@@ -118,7 +135,7 @@
 			<div id="community" style="margin-top: 20px">
 				<p class="list" style="padding: 10px 0">
 					<span class="title">대외활동 게시물</span>
-					<span class="more">더보기</span>
+					<span class="more" @click="mvCom">더보기</span>
 				</p>
 
 				<div id="news" style="padding: 10px 0">
@@ -127,18 +144,22 @@
 						<span class="text"> 독서실 고시반 프로그램 신청</span>
 					</div>
 					<div class="new_list">
-						<span class="univ">[고려대]</span>
-						<span class="text"> 독서실 고시반 프로그램 신청</span>
+						<span class="univ">2023</span>
+						<span class="text"> JOINTERSHIP 활동가 25기 모집(~6/17)</span>
 					</div>
 					<div class="new_list">
-						<span class="univ">[고려대]</span>
-						<span class="text"> 독서실 고시반 프로그램 신청</span>
+						<span class="univ">2023</span>
+						<span class="text"> 현대오토에버 스마트모빌리티 공학 체험교육 6기</span>
+					</div>
+					<div class="new_list">
+						<span class="univ">2023</span>
+						<span class="text"> 투두몰 서포터즈,대학생 기자 모집</span>
 					</div>
 				</div>
 
-				<p class="list" style="margin-top: 40px">
+				<p class="list" style="margin-top: 20px; padding: 10px 0">
 					<span class="title">취업 게시물</span>
-					<span class="more">더보기</span>
+					<span class="more" @click="mvCom">더보기</span>
 				</p>
 				<div id="news" style="padding: 5px 0">
 					<div class="new_list">
@@ -172,28 +193,72 @@
 </template>
 
 <script>
+import axios from 'axios';
 // @ is an alias to /src
 //import HelloWorld from '@/components/HomeMain.vue'
 
 export default {
 	name: 'HomeView',
+	data() {
+		return {
+			activeTab: 'tab1', //초기 선택 탭
+			majorList: [
+				{ majorLine: '인문계열', majorCode: 100391 },
+				{ majorLine: '사회계열', majorCode: 100392 },
+				{ majorLine: '교육계열', majorCode: 100393 },
+				{ majorLine: '공학계열', majorCode: 100394 },
+				{ majorLine: '자연계열', majorCode: 100395 },
+				{ majorLine: '의약계열', majorCode: 100396 },
+				{ majorLine: '예체능계열', majorCode: 100397 },
+			],
+
+			major: '',
+			majorInfo: [],
+		};
+	},
 	methods: {
+		//api호출 받아오기. '&'' 하나당 = 변수 하나
+		fetchData() {
+			axios
+				.get(
+					'https://www.career.go.kr/cnet/openapi/getOpenApi?apiKey=203d6fa46456dfa6b49d3c578fda0f2a&svcType=api&svcCode=MAJOR&contentType=xml&gubun=univ_list',
+				)
+				.then((response) => {
+					this.majorInfo = response.data.dataSearch.content;
+					console.log(response);
+				})
+				.catch((error) => {
+					console.error(error);
+				});
+		},
 		moveurl() {
 			window.location.href = 'https://www.work.go.kr/consltJobCarpa/jobPsyExam/jobPsyExamIntro.do';
 		},
 		moveurl_1() {
 			window.location.href = 'https://sso.career.go.kr/';
 		},
+		//커뮤니티 페이지로 이동
+		mvCom() {
+			this.$router.push('/community');
+		},
+		//체크박스 중복 방지로
+		handleOptionClick(majorLine, majorCode) {
+			this.major = majorLine;
+			this.fetchData(majorCode);
+		},
 	},
+
+	//mounted() {
+	//this.$axios.get('/api/homeview').then((result) => {
+	//		console.log(result.data);
+	//	});
+	//},
 };
 </script>
 <style scoped>
-.search_de {
-	margin-top: 250px;
-}
 .compare {
 	background: rgb(212, 235, 239);
-	height: 500px;
+	height: 580px;
 	min-width: 1100px;
 	/* position:relative; */
 }
@@ -214,9 +279,11 @@ export default {
 
 	margin-top: 20px;
 }
-
+li {
+	list-style: none;
+}
 .search_text {
-	width: 400px;
+	width: 450px;
 	height: 40px;
 	line-height: 24px;
 	color: #292929;
@@ -225,18 +292,18 @@ export default {
 }
 
 .search_de {
-	background: white;
-	position: absolute;
+	position: relative;
 	top: 20%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	padding: 20px;
-	min-width: 1100px;
+	/* min-width: 1100px; */
+	margin-top: 100px;
 }
 .depart-container {
 	display: flex;
 	align-items: center;
-	padding: 10px;
+	padding: 50px;
 }
 #depart {
 	margin-left: 10px;
@@ -245,7 +312,7 @@ export default {
 }
 
 #search_content {
-	background: white;
+	/* background: white; */
 	position: absolute;
 	top: 430px;
 	left: 50%;
@@ -254,8 +321,10 @@ export default {
 	width: 872px;
 	overflow: auto;
 }
-#content {
-	padding-left: 70px;
+#test img,
+#test2 img {
+	width: 15px;
+	height: 15px;
 }
 .save_btn {
 	position: relative;
@@ -265,6 +334,9 @@ export default {
 
 	border: 0;
 	background: #99acb6;
+}
+.tab1 {
+	left: 50px;
 }
 .notice {
 	position: relative;
@@ -345,7 +417,7 @@ export default {
 	width: 540px;
 }
 .link {
-	padding: 5px 30px 5px 30px;
+	padding: 5px 25px 5px 25px;
 	width: 147px;
 	color: white;
 	background: navy;
@@ -360,7 +432,7 @@ export default {
 }
 #community .list {
 	border-bottom: 1px solid rgb(191, 188, 188);
-	width: 400px;
+	width: 450px;
 }
 #community .list,
 .new_list {
@@ -375,9 +447,6 @@ export default {
 }
 .title {
 	font-weight: bold;
-}
-.new_list {
-	font-size: 13px;
 }
 
 .row_right {
